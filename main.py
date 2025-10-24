@@ -1,22 +1,22 @@
 from InquirerPy import prompt, inquirer
-from rich.console import Console
 from rich.table import Table
 import os
 from time import sleep
+from utils import print_utils as p
 
-console = Console()
-
-if __name__ == '__main__':
-  os.system('clear')
-  console.rule("[bold Purple]README Generator.")
-
-  questions = [
+instructions = []
+questions = [
           {"type": "input", "name": "title", "message": "Project Title:\n"},
           {"type": "input", "name": "desc", "message": "Project Description:\n"},
           {"type": "input", "name": "usage", "message": "Usage Information:\n"},
           {"type": "input", "name": "author", "message": "Author:\n"},
           {"type": "input", "name": "contact", "message": "Contact Information:\n"},
         ]
+
+if __name__ == '__main__':
+  os.system('clear')
+  p.print_section_divider('README Generator.', 'purple');
+  
   answers = prompt(questions)
 
   license = inquirer.select(
@@ -67,42 +67,25 @@ if __name__ == '__main__':
     try:
         num_install_ins = int(input('How many install instruction steps do you wish to add?\n'))
     except ValueError:
-        console.print(
-        f"[bold red]Number of install steps MUST be a integer!"
-        )
+        p.print_label('Number of install steps MUST be a integer!', 'red')
     else:
         break               
   
-  instructions = []
   while (len(instructions) < num_install_ins):
     new_instruction = input(f'Enter install instruction {len(instructions) + 1}:\n')
     instructions.append(new_instruction)
 
   print('\n')
-  console.rule("[bold Purple]Inputs")
+  p.print_section_divider('Input.', 'purple');
   
-  console.print(
-    f"[bold yellow]Project Title: [blue]{answers['title']}[blue]"
-  )
-  console.print(
-    f"[bold yellow]Project Description: [blue]{answers['desc']}[blue]"
-  )
+  p.print_input('Project Title:', answers['title'], 'yellow', 'blue')
+  p.print_input('Project Description:', answers['desc'], 'yellow', 'blue')
   for step in instructions:
-    console.print(
-    f"[bold yellow]Installation Step: [blue]{step}[blue]"
-    )
-  console.print(
-    f"[bold yellow]Usage Information: [blue]{answers['usage']}[blue]"
-  )
-  console.print(
-    f"[bold yellow]License: [blue]{license}[blue]"
-  )
-  console.print(
-    f"[bold yellow]Author: [blue]{answers['author']}[blue]"
-  )
-  console.print(
-    f"[bold yellow]Contact Information: [blue]{answers['contact']}[blue]"
-  )
+    p.print_input('Installation Step:', step, 'yellow', 'blue')
+  p.print_input('Usage Information:', answers['usage'], 'yellow', 'blue')
+  p.print_input('License:', license, 'yellow', 'blue')
+  p.print_input('Author:', answers['author'], 'yellow', 'blue')
+  p.print_input('Contact Information:', answers['contact'], 'yellow', 'blue')
 
   is_details_correct =  inquirer.confirm(
         message=f'Are these details correct?',
@@ -111,14 +94,12 @@ if __name__ == '__main__':
     ).execute()
   
   if is_details_correct:
-    console.print(
-      f"[bold red]Writing to README.md file"
-    )
+    p.print_label('Writing to README.md file', 'red')
 
     install_steps_text = ''
     for step in instructions:
       install_steps_text += f"""
-{step}
+`{step}`
 """
     content = f"""
 # {answers['title']}
@@ -127,6 +108,7 @@ if __name__ == '__main__':
 {answers['desc']}
 
 ## Installation steps
+
 {install_steps_text}
 
 ## Usage Information
@@ -141,6 +123,5 @@ if __name__ == '__main__':
         file.write(content)
 
   else:
-    console.print(
-    f"[bold yellow] start over"
-  )
+    p.print_label('exiting', 'red')
+  
