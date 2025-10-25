@@ -21,6 +21,7 @@ The program will build a github ready README for you.
 Enter the details, but all fields are required, you can specify any 
 amount of install steps you want and there is a great variety of licenses to choose from. you can specify a file name and it will create a md file in the output folder.
 
+---
 
 | ㄟ(≧◇≦)ㄏ | (*^_^*) |
 | --- | --- |
