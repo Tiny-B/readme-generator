@@ -105,6 +105,7 @@ if __name__ == '__main__':
       install_steps_text += f"""
 `{step}`
 """
+    # Remove the indentation otherwise the table wont render
     table = dedent(f"""\
 | ㄟ(≧◇≦)ㄏ | (*^_^*) |
 | --- | --- |
@@ -128,6 +129,7 @@ if __name__ == '__main__':
 ## Usage Information
 
 {answers['usage']}
+
 
 {table}
 """ 
