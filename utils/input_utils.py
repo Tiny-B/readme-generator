@@ -11,14 +11,14 @@ def ask_questions(questions):
     return prompt(questions)
 
 def selection(prompt, choices):
-    inquirer.select(
+    return inquirer.select(
         message=prompt,
         choices=choices,
         instruction="(Select with up & down arrow keys.)",
     ).execute()
 
 def get_confirmation(question):
-    inquirer.confirm(
+    return inquirer.confirm(
         message=question,
         default=True,
         instruction="(y/n)",

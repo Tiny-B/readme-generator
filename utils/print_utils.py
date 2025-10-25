@@ -14,3 +14,6 @@ def print_input(label, input, label_col, input_col):
   console.print(
     f"[bold {label_col}]{label} [{input_col}]{input}[{input_col}]"
   )
+
+def new_line():
+  print('\n')

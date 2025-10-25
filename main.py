@@ -54,21 +54,31 @@ license_choices=[
         ]
 
 if __name__ == '__main__':
+  # Clear the terminal for a clean working space
   os.system('clear')
   p.print_section_divider('README Generator - Inputs', 'purple');
+  p.new_line()
+
+  p.print_label('Enter the details that you want to create the README file with, all fields are required', 'white')
+  p.new_line()
   
   answers = i.ask_questions(questions);
 
   license = i.selection("License:", license_choices)
   
+  # Must be a number or it will throw error and ask again
   num_install_steps = i.get_number('How many install instruction steps do you wish to add?\n')
   
   while (len(instructions) < num_install_steps):
     new_instruction = input(f'Enter install instruction {len(instructions) + 1}:\n')
     instructions.append(new_instruction)
 
-  print('\n')
+  p.new_line()
   p.print_section_divider('README Generator - Outputs', 'purple');
+  p.new_line()
+
+  p.print_label('Are these details correct?', 'white')
+  p.new_line()
   
   p.print_input('Project Title:', answers['title'], 'yellow', 'blue')
   p.print_input('Project Description:', answers['desc'], 'yellow', 'blue')
@@ -78,8 +88,10 @@ if __name__ == '__main__':
   p.print_input('License:', license, 'yellow', 'blue')
   p.print_input('Author:', answers['author'], 'yellow', 'blue')
   p.print_input('Contact Information:', answers['contact'], 'yellow', 'blue')
+  p.new_line()
 
-  is_details_correct =  i.get_confirmation('Are these details correct?')
+  # Simple yes or no prompt to double check the details are correct
+  is_details_correct =  i.get_confirmation('Create README with these details?')
   
   if is_details_correct:
     p.print_label('Writing to README.md file', 'red')
@@ -102,14 +114,14 @@ if __name__ == '__main__':
 ## Usage Information
 {answers['usage']}
 
-### License: {license}
-### Author: {answers['author']}
-### Contact: {answers['contact']}
+License: {license}
+Author: {answers['author']}
+Contact: {answers['contact']}
 """ 
 
     with open('README.md', "a") as file:
         file.write(content)
 
   else:
-    p.print_label('exiting', 'red')
-  
+    p.new_line()
+    p.print_label('Exiting', 'red')
