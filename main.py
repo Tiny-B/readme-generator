@@ -1,27 +1,19 @@
-from InquirerPy import prompt, inquirer
 from rich.table import Table
 import os
 from time import sleep
 from utils import print_utils as p
+from utils import input_utils as i
 
+num_install_steps = 0;
 instructions = []
 questions = [
-          {"type": "input", "name": "title", "message": "Project Title:\n"},
-          {"type": "input", "name": "desc", "message": "Project Description:\n"},
-          {"type": "input", "name": "usage", "message": "Usage Information:\n"},
-          {"type": "input", "name": "author", "message": "Author:\n"},
-          {"type": "input", "name": "contact", "message": "Contact Information:\n"},
+          {"type": "input", "name": "title", "message": "Project Title:\n", "validate": i.check_input},
+          {"type": "input", "name": "desc", "message": "Project Description:\n", "validate": i.check_input},
+          {"type": "input", "name": "usage", "message": "Usage Information:\n", "validate": i.check_input},
+          {"type": "input", "name": "author", "message": "Author:\n", "validate": i.check_input},
+          {"type": "input", "name": "contact", "message": "Contact Information:\n", "validate": i.check_input},
         ]
-
-if __name__ == '__main__':
-  os.system('clear')
-  p.print_section_divider('README Generator.', 'purple');
-  
-  answers = prompt(questions)
-
-  license = inquirer.select(
-        message="License:",
-        choices=[
+license_choices=[
             ("No license"),
             ("Academic Free License v3.0"),
             ("Apache license 2.0"),
@@ -59,24 +51,24 @@ if __name__ == '__main__':
             ("University of Illinois/NCSA Open Source License"),
             ("The Unlicense"),
             ("zLib License"),
-        ],
-        instruction="(Select with up & down arrow keys.)",
-    ).execute()
+        ]
+
+if __name__ == '__main__':
+  os.system('clear')
+  p.print_section_divider('README Generator - Inputs', 'purple');
   
-  while True:
-    try:
-        num_install_ins = int(input('How many install instruction steps do you wish to add?\n'))
-    except ValueError:
-        p.print_label('Number of install steps MUST be a integer!', 'red')
-    else:
-        break               
+  answers = i.ask_questions(questions);
+
+  license = i.selection("License:", license_choices)
   
-  while (len(instructions) < num_install_ins):
+  num_install_steps = i.get_number('How many install instruction steps do you wish to add?\n')
+  
+  while (len(instructions) < num_install_steps):
     new_instruction = input(f'Enter install instruction {len(instructions) + 1}:\n')
     instructions.append(new_instruction)
 
   print('\n')
-  p.print_section_divider('Input.', 'purple');
+  p.print_section_divider('README Generator - Outputs', 'purple');
   
   p.print_input('Project Title:', answers['title'], 'yellow', 'blue')
   p.print_input('Project Description:', answers['desc'], 'yellow', 'blue')
@@ -87,11 +79,7 @@ if __name__ == '__main__':
   p.print_input('Author:', answers['author'], 'yellow', 'blue')
   p.print_input('Contact Information:', answers['contact'], 'yellow', 'blue')
 
-  is_details_correct =  inquirer.confirm(
-        message=f'Are these details correct?',
-        default=True,
-        instruction="(y/n)",
-    ).execute()
+  is_details_correct =  i.get_confirmation('Are these details correct?')
   
   if is_details_correct:
     p.print_label('Writing to README.md file', 'red')
