@@ -1,9 +1,9 @@
-from rich.table import Table
 import os
-from time import sleep
+from textwrap import dedent
 from utils import print_utils as p
 from utils import input_utils as i
 
+file_name = ''
 num_install_steps = 0;
 instructions = []
 questions = [
@@ -64,7 +64,7 @@ if __name__ == '__main__':
   
   answers = i.ask_questions(questions);
 
-  license = i.selection("License:", license_choices)
+  license_ = i.selection("License:", license_choices)
   
   # Must be a number or it will throw error and ask again
   num_install_steps = i.get_number('How many install instruction steps do you wish to add?\n')
@@ -85,7 +85,7 @@ if __name__ == '__main__':
   for step in instructions:
     p.print_input('Installation Step:', step, 'yellow', 'blue')
   p.print_input('Usage Information:', answers['usage'], 'yellow', 'blue')
-  p.print_input('License:', license, 'yellow', 'blue')
+  p.print_input('License:', license_, 'yellow', 'blue')
   p.print_input('Author:', answers['author'], 'yellow', 'blue')
   p.print_input('Contact Information:', answers['contact'], 'yellow', 'blue')
   p.new_line()
@@ -94,17 +94,31 @@ if __name__ == '__main__':
   is_details_correct =  i.get_confirmation('Create README with these details?')
   
   if is_details_correct:
-    p.print_label('Writing to README.md file', 'red')
+    # give the user a choice to name the file
+    prompt_for_file_name = i.ask_questions([{"type": "input", "name": "file_name", "message": "Give the file a name:\n", "validate": i.check_input}])
+    file_name = f'{prompt_for_file_name["file_name"]}.md'
+
+    p.print_label(f'Writing to output/{file_name}', 'red')
 
     install_steps_text = ''
     for step in instructions:
       install_steps_text += f"""
 `{step}`
 """
+    table = dedent(f"""\
+| ㄟ(≧◇≦)ㄏ | (*^_^*) |
+| --- | --- |
+| License: | {license_} |
+| Author:  | {answers['author']} |
+| Contact: | {answers['contact']} |
+
+    """)
+
     content = f"""
 # {answers['title']}
 
 ## Project Description
+
 {answers['desc']}
 
 ## Installation steps
@@ -112,14 +126,13 @@ if __name__ == '__main__':
 {install_steps_text}
 
 ## Usage Information
+
 {answers['usage']}
 
-License: {license}
-Author: {answers['author']}
-Contact: {answers['contact']}
+{table}
 """ 
 
-    with open('README.md', "a") as file:
+    with open(f'output/{file_name}', "a") as file:
         file.write(content)
 
   else:
