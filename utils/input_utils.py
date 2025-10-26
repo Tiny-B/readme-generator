@@ -18,11 +18,12 @@ def selection(prompt, choices):
     ).execute()
 
 def get_array_inputs(num_elements, prompt):
-      input_array = []
-      while (len(input_array) < num_elements):
-        new_element = input(f'{prompt} {len(input_array) + 1}:\n')
-        input_array.append(new_element)
-      return input_array
+    input_array = []
+    while (len(input_array) < num_elements):
+      question = [{"type": "input", "name": "step", "message": f"{prompt} {len(input_array) + 1}:\n", "validate": check_input}]
+      answer = ask_questions(question)
+      input_array.append(answer['step'])
+    return input_array
 
 def get_confirmation(question):
     return inquirer.confirm(

@@ -89,6 +89,7 @@ class Generator:
     prompt_for_file_name = i.ask_questions([{"type": "input", "name": "file_name", "message": "Give the file a name:\n", "validate": i.check_input}])
     self.file_name = f'{prompt_for_file_name["file_name"]}.md'
 
+  # need no indentation for the markdown itself to keep format clean
   def generate_markdown(self):
     install_steps_text = ''
     for step in self.steps:
