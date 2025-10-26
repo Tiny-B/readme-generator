@@ -17,6 +17,13 @@ def selection(prompt, choices):
         instruction="(Select with up & down arrow keys.)",
     ).execute()
 
+def get_array_inputs(num_elements, prompt):
+      input_array = []
+      while (len(input_array) < num_elements):
+        new_element = input(f'{prompt} {len(input_array) + 1}:\n')
+        input_array.append(new_element)
+      return input_array
+
 def get_confirmation(question):
     return inquirer.confirm(
         message=question,

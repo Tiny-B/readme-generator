@@ -57,10 +57,7 @@ if __name__ == '__main__':
   # Clear the terminal for a clean working space
   os.system('clear')
   p.print_section_divider('README Generator - Inputs', 'purple');
-  p.new_line()
-
   p.print_label('Enter the details that you want to create the README file with, all fields are required', 'white')
-  p.new_line()
   
   answers = i.ask_questions(questions);
 
@@ -68,27 +65,13 @@ if __name__ == '__main__':
   
   # Must be a number or it will throw error and ask again
   num_install_steps = i.get_number('How many install instruction steps do you wish to add?\n')
-  
-  while (len(instructions) < num_install_steps):
-    new_instruction = input(f'Enter install instruction {len(instructions) + 1}:\n')
-    instructions.append(new_instruction)
+  instructions = i.get_array_inputs(num_install_steps, 'Enter install instruction:')
 
-  p.new_line()
   p.print_section_divider('README Generator - Outputs', 'purple');
-  p.new_line()
-
   p.print_label('Are these details correct?', 'white')
-  p.new_line()
   
-  p.print_input('Project Title:', answers['title'], 'yellow', 'blue')
-  p.print_input('Project Description:', answers['desc'], 'yellow', 'blue')
-  for step in instructions:
-    p.print_input('Installation Step:', step, 'yellow', 'blue')
-  p.print_input('Usage Information:', answers['usage'], 'yellow', 'blue')
-  p.print_input('License:', license_, 'yellow', 'blue')
-  p.print_input('Author:', answers['author'], 'yellow', 'blue')
-  p.print_input('Contact Information:', answers['contact'], 'yellow', 'blue')
-  p.new_line()
+  # Prints the users outputs so far for review
+  p.print_readme_output(answers['title'], answers['desc'], instructions, answers['usage'], license_, answers['author'], answers['contact'])
 
   # Simple yes or no prompt to double check the details are correct
   is_details_correct =  i.get_confirmation('Create README with these details?')
