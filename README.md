@@ -21,7 +21,7 @@ The program will build a github ready README for you.
 Enter the details, but all fields are required, you can specify any 
 amount of install steps you want and there is a great variety of licenses to choose from. you can specify a file name and it will create a md file in the output folder.
 
-[![](https://markdown-videos-api.jorgenkh.no/youtube/dQw4w9WgXcQ)](https://youtu.be/a1YtpVYxbT4?si=_vLGly32sBDZQ4Em)
+[![Usage video](https://markdown-videos-api.jorgenkh.no/url?url=https%3A%2F%2Fyoutu.be%2Fa1YtpVYxbT4%3Fsi%3D_vLGly32sBDZQ4Em)](https://youtu.be/a1YtpVYxbT4?si=_vLGly32sBDZQ4Em)
 
 ---
 
